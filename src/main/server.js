@@ -1,17 +1,19 @@
+const express = require('express');
+const http = require('http');
 const WebSocket = require('ws');
 
-const messages = [];
 const PORT = parseInt(process.env.PORT, 10) || 8087;
-const server = new WebSocket.Server({port: PORT});
 
-server.on('listening', () => console.log(`WebSocket server listening on port "${PORT}"...`));
-server.on('message', () => console.log(`Message received: ${message}`));
+const app = express();
+const httpServer = http.createServer(app);
+const wsServer = new WebSocket.Server({server: httpServer});
 
-server.on('connection', (ws) => {
-  messages.forEach((message) => ws.send(message));
+wsServer.on('listening', () => console.log(`WebSocket server listening on port "${PORT}"...`));
+wsServer.on('message', () => console.log(`Message received: ${message}`));
+wsServer.on('connection', (ws) => {
+  ws.on('message', (message) => wsServer.clients.forEach((client) => client.send(`Echo: ${message}`)));
+});
 
-  ws.on('message', (message) => {
-    messages.push(message);
-    server.clients.forEach((client) => client.send(message));
-  });
+httpServer.listen(PORT, () => {
+  console.log(`HTTP server listening on port "${httpServer.address().port}"...`);
 });
