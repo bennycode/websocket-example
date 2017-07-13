@@ -3,6 +3,9 @@
     "express": "4.15.3",
     "ws": "3.0.0"
   },
+  "devDependencies": {
+    "nodemon": "1.11.0"
+  },
   "main": "index.js",
   "name": "websocket-example",
   "private": true,
@@ -11,7 +14,7 @@
     "url": "git+https://github.com/bennyn/websocket-example.git"
   },
   "scripts": {
-    "start": "node ./src/main/server.js"
+    "start": "nodemon ./src/main/server.js"
   },
-  "version": "1.1.0"
+  "version": "1.1.1"
 }
