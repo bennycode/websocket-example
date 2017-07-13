@@ -3,7 +3,7 @@ const http = require('http');
 const path = require('path');
 const WebSocket = require('ws');
 
-const PORT = parseInt(process.env.PORT, 10) || 8087;
+const PORT = parseInt(process.env.PORT, 10) || 8080;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
 const app = express();
