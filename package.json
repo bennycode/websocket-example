@@ -14,7 +14,8 @@
     "url": "git+https://github.com/bennyn/websocket-example.git"
   },
   "scripts": {
-    "start": "nodemon ./src/main/server.js"
+    "start": "node ./src/main/server.js",
+    "start-dev": "nodemon ./src/main/server.js"
   },
   "version": "1.2.0"
 }

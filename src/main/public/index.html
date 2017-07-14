@@ -3,8 +3,56 @@
   <head>
     <meta charset="utf-8">
     <title>Demo</title>
-  </head>
   <body>
-    <h1>Hello World</h1>
+    <div>
+      <input type="text" id="messageinput" />
+    </div>
+    <div>
+      <button type="button" onclick="openSocket();">Open</button>
+      <button type="button" onclick="send();">Send</button>
+      <button type="button" onclick="closeSocket();">Close</button>
+    </div>
+    <div id="messages"></div>
+    <script>
+      let webSocket;
+      const address = `${protocol}//${window.location.host}/`;
+      const messages = document.getElementById('messages');
+      const protocol = (window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+      openSocket();
+
+      function openSocket() {
+        if (webSocket !== undefined && webSocket.readyState !== WebSocket.CLOSED) {
+          writeResponse('WebSocket is already open...');
+          return;
+        }
+
+        webSocket = new WebSocket(address);
+
+        webSocket.onopen = function(event) {
+          writeResponse(`Established WebSocket connection with '${event.currentTarget.url}'...`);
+        };
+
+        webSocket.onmessage = function(event) {
+          writeResponse(`Received message from server: ${event.data}`);
+        };
+
+        webSocket.onclose = function(event) {
+          writeResponse(`WebSocket has been closed. Event code: ${event.code}`);
+        };
+      }
+
+      function send() {
+        const text = document.getElementById('messageinput').value;
+        webSocket.send(text);
+      }
+
+      function closeSocket() {
+        webSocket.close();
+      }
+
+      function writeResponse(text) {
+        messages.innerHTML += '<br/>' + text;
+      }
+    </script>
   </body>
 </html>

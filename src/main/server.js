@@ -14,7 +14,7 @@ const wsServer = new WebSocket.Server({server: httpServer});
 wsServer.on('listening', () => console.log(`WebSocket server listening on port "${PORT}"...`));
 wsServer.on('message', () => console.log(`Message received: ${message}`));
 wsServer.on('connection', (ws) => {
-  ws.on('message', (message) => wsServer.clients.forEach((client) => client.send(`Echo: ${message}`)));
+  ws.on('message', (message) => wsServer.clients.forEach((client) => client.send(`Someone sent: ${message}`)));
 });
 
 httpServer.listen(PORT, () => {
