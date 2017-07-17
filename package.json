@@ -4,7 +4,9 @@
     "ws": "3.0.0"
   },
   "devDependencies": {
-    "nodemon": "1.11.0"
+    "concurrently": "3.5.0",
+    "nodemon": "1.11.0",
+    "opn-cli": "3.1.0"
   },
   "main": "index.js",
   "name": "websocket-example",
@@ -15,7 +17,7 @@
   },
   "scripts": {
     "start": "node ./src/main/server.js",
-    "start-dev": "nodemon ./src/main/server.js"
+    "start-dev": "concurrently \"nodemon ./src/main/server.js\" \"opn http://localhost:8080/\""
   },
   "version": "1.3.0"
 }
