@@ -14,10 +14,10 @@
     </div>
     <div id="messages"></div>
     <script>
-      let webSocket;
-      const address = `${protocol}//${window.location.host}/`;
-      const messages = document.getElementById('messages');
       const protocol = (window.location.protocol === 'https:') ? 'wss:' : 'ws:';
+      const address = `${protocol}//${window.location.host}/`;
+      let webSocket;
+
       openSocket();
 
       function openSocket() {
@@ -51,6 +51,7 @@
       }
 
       function writeResponse(text) {
+        const messages = document.getElementById('messages');
         messages.innerHTML += '<br/>' + text;
       }
     </script>
