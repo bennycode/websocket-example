@@ -19,5 +19,5 @@
     "dev": "concurrently \"nodemon ./src/main/server.js\" \"opn http://localhost:8080/\"",
     "start": "node ./src/main/server.js"
   },
-  "version": "1.3.0"
+  "version": "1.4.0"
 }
