@@ -6,8 +6,34 @@ const WebSocket = require('ws');
 const PORT = parseInt(process.env.PORT, 10) || 8080;
 const PUBLIC_DIR = path.join(__dirname, 'public');
 
+const cache = {};
+
 const app = express();
 app.use(express.static(PUBLIC_DIR));
+
+const resource = '/fail';
+app.get(resource, (request, response) => {
+  const parameter = 'on';
+  const value = parseInt(request.query[parameter], 10);
+  const key = `${resource}?${parameter}=${value}`;
+
+  if (cache[key] === 0) {
+    delete cache[key];
+    return response.sendStatus(404);
+  }
+
+  if (!cache[key]) {
+    cache[key] = value;
+  }
+
+  if (cache[key] > 0) {
+    cache[key] -= 1;
+    return response.json({remaining: cache[key]});
+  }
+
+  response.sendStatus(500);
+});
+
 const httpServer = http.createServer(app);
 
 const wsServer = new WebSocket.Server({server: httpServer});
