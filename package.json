@@ -16,8 +16,8 @@
     "url": "git+https://github.com/bennyn/websocket-example.git"
   },
   "scripts": {
-    "start": "node ./src/main/server.js",
-    "start-dev": "concurrently \"nodemon ./src/main/server.js\" \"opn http://localhost:8080/\""
+    "dev": "concurrently \"nodemon ./src/main/server.js\" \"opn http://localhost:8080/\"",
+    "start": "node ./src/main/server.js"
   },
   "version": "1.3.0"
 }
