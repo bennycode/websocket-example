@@ -1,12 +1,14 @@
 {
   "dependencies": {
+    "@wireapp/queue-priority": "0.0.7",
     "express": "4.15.3",
     "ws": "3.0.0"
   },
   "devDependencies": {
     "concurrently": "3.5.0",
     "nodemon": "1.11.0",
-    "opn-cli": "3.1.0"
+    "opn-cli": "3.1.0",
+    "webpack": "3.3.0"
   },
   "main": "index.js",
   "name": "websocket-example",
@@ -16,7 +18,8 @@
     "url": "git+https://github.com/bennyn/websocket-example.git"
   },
   "scripts": {
-    "dev": "concurrently \"nodemon ./src/main/server.js\" \"opn http://localhost:8080/\"",
+    "build": "webpack",
+    "dev": "npm run build && concurrently \"nodemon ./src/main/server.js\" \"opn http://localhost:8080/\"",
     "start": "node ./src/main/server.js"
   },
   "version": "1.4.0"

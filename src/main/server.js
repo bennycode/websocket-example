@@ -5,6 +5,7 @@ const WebSocket = require('ws');
 
 const PORT = parseInt(process.env.PORT, 10) || 8080;
 const PUBLIC_DIR = path.join(__dirname, 'public');
+let isLocked = false;
 
 const cache = {};
 
@@ -32,6 +33,19 @@ app.get(resource, (request, response) => {
   }
 
   response.sendStatus(500);
+});
+
+app.get('/check-lock', (request, response) => {
+  if (isLocked) {
+    return response.sendStatus(400)
+  } else {
+    return response.sendStatus(200);
+  }
+});
+
+app.get('/set-lock', function(request, response) {
+  isLocked = (request.query.value === 'true');
+  return response.json({currentValue: isLocked});
 });
 
 const httpServer = http.createServer(app);

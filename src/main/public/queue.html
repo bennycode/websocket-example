@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Demo</title>
+    <script src="priority-queue-bundle.js"></script>
+  <body>
+    <script>
+      const myQueue = new PriorityQueueModule.PriorityQueue({
+        maxRetries: Infinity,
+        retryDelay: 1000,
+      });
+
+      myQueue.add(() => window.fetch('/set-lock?value=true').then((response) => response.json())).then((payload) => {
+        console.log(`Is the door locked? ${payload.currentValue}`);
+        myQueue.add(() => window.fetch('/check-lock').then((response) => {
+          if (response.ok) {
+            return Promise.resolve(response.text());
+          } else {
+            return Promise.reject(new Error('Door is locked...'));
+          }
+        }));
+        setTimeout(() => {
+          console.log(`Blocked items in the queue "${myQueue.size}". Trying to unlock...`);
+          myQueue
+            .add(() => window.fetch('/set-lock?value=false').then((response) => response.json()).then((payload) => {
+              console.log(`Is the door locked? ${payload.currentValue}`);
+            }), PriorityQueueModule.Priority.HIGH)
+            .then(() => {
+              console.log(`Blocked items in the queue "${myQueue.size}".`);
+            })
+        }, 5000);
+      });
+    </script>
+  </body>
+</html>
